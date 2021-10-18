@@ -26,3 +26,4 @@ jobs:
         with:
           name: a1
       - run: ls -R
+      - run: kubectl version
