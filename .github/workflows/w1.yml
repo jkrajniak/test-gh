@@ -17,5 +17,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      - run: ls -R $RUNNER_TEMP
+      - run: |
+          ls -R $RUNNER_TEMP
+          mkdir -p $RUNNER_TEMP/abc
       - run: echo ${{ github.sha }} > $RUNNER_TEMP/abc/f1
