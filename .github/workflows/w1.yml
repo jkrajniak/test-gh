@@ -2,28 +2,19 @@ name: CI
 
 on:
   push:
-    tags:
-      - 'v*'
     branches:
       - master
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/upload-artifact@v2
+      - name: 'Cache docker layers'
+        uses: actions/cache@v2
         with:
-          name: a1
-          path: f1/*
-  job2:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: a1
-      - run: ls -R
-      - run: kubectl version
+          path: $RUNNER_TEMP/buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - run: ls -R $RUNNER_TEMP
