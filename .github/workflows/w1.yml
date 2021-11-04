@@ -24,4 +24,11 @@ jobs:
             ${{ runner.os }}-buildx-
       - name: 'build'
         run: |
-          docker 
+          docker build -f Dockerfile
+            --builder=${{ steps.buildx.outputs.name }} \
+            --cache-from=type=local,src=/tmp/buildx-cache \
+            --cache-to=type=local,mode=max,dest=/tmp/buildx-cache-new
+      - name: 'clean cache'
+        run: |
+          rm -rf /tmp/buildx-cache
+          mv -v /tmp/buildx-cache-new /tmp/buildx-cache
