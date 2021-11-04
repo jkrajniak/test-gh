@@ -12,9 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: 'Cache docker layers'
         uses: actions/cache@v2
-        path: $RUNNER_TEMP/abc
         with:
-          path: $RUNNER_TEMP/buildx-cache
+          path: $RUNNER_TEMP/abc
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
