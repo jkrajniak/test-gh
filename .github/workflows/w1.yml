@@ -28,6 +28,7 @@ jobs:
             --builder=${{ steps.buildx.outputs.name }} \
             --cache-from=type=local,src=/tmp/buildx-cache \
             --cache-to=type=local,mode=max,dest=/tmp/buildx-cache-new \
+            --load \
             .
       - name: 'clean cache'
         run: |
