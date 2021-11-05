@@ -28,6 +28,16 @@ jobs:
             --builder=${{ steps.buildx.outputs.name }} \
             --cache-from=type=local,src=/tmp/buildx-cache \
             --cache-to=type=local,mode=max,dest=/tmp/buildx-cache-new \
+            -t t1:latest \
+            --load \
+            .
+      - name: 'build_test'
+        run: |
+          docker build -f Dockerfile_test \
+            --builder=${{ steps.buildx.outputs.name }} \
+            --cache-from=type=local,src=/tmp/buildx-cache \
+            --cache-to=type=local,mode=max,dest=/tmp/buildx-cache-new \
+            -t t2:latest \
             --load \
             .
       - name: 'clean cache'
