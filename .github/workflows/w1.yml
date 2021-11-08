@@ -47,6 +47,9 @@ jobs:
     needs: check-build
     if: "needs.check-build.outputs.status == 'skip-build'"
     runs-on: ubuntu-latest
+    steps:
+      - name: 'Skip image'
+        run: exit 0
 
   deploy:
     needs: build-images
