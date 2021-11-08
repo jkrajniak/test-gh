@@ -12,13 +12,27 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get tag
         run: git describe --tags --abbrev=0 || echo "no tags"
-  build:
+  check-build:
     needs: test
+    outputs:
+      status: ${{ steps.check_tag.conclusion }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check tag
+        id: check_tag
+        if: startsWith(github.event.ref, 'refs/tags/v')
+        run: |
+          echo "${{ github.event.ref }}"
+          TAG=$(echo ${{ github.event.ref }} | cut -f3- -d'/')
+          echo $TAG
+          [[ $A =~ ^v([0-9]\d*)\.([0-9]\d*) ]] && exit 0 || exit 1
+  build:
+    needs: check-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Check tag
-        if: "!startsWith(github.event.ref, 'refs/tags/v')"
+        if: "!contains(needs.check.outputs.status, 'failure')"
         run: exit 1
       - name: Build
         run: echo build
