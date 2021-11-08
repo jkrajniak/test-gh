@@ -50,8 +50,7 @@ jobs:
     needs:
       - check_build
       - build
-    #if: "needs.check_build.outputs.status == 'skip-build' || !contains(needs.build.outputs.status, 'failure')"
-    if: "always() && needs.build.result == 'skipped'"
+    if: "always() && (needs.build.result == 'skipped' || needs.build.result == 'success')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
