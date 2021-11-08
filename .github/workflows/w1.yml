@@ -52,7 +52,9 @@ jobs:
         run: exit 0
 
   deploy:
-    needs: build-images
+    needs: 
+      - build-images
+      - skipped-build-images
     if: "always() && (needs.build-images.result == 'skipped' || needs.build-images.result == 'success')"
     runs-on: ubuntu-latest
     steps:
