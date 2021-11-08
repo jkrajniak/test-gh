@@ -28,7 +28,7 @@ jobs:
           [[ $TAG =~ ^v([0-9]\d*)\.([0-9]\d*) ]] && echo "::set-output status=build"  || "::set-output status=skip-build"
   build:
     needs: check_build
-    if: "needs.check_build.outputs.status == build"
+    if: "needs.check_build.outputs.status == 'build'"
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.build.conclusion }}
@@ -41,7 +41,7 @@ jobs:
     needs:
       - check_build
       - build
-    if: "needs.check_build.outputs.status == skip-build || !contains(needs.build.outputs.status, 'failure')"
+    if: "needs.check_build.outputs.status == 'skip-build' || !contains(needs.build.outputs.status, 'failure')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
