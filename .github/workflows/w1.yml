@@ -13,8 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - run: git checkout HEAD^
       - name: Get tag
-        run: git describe --tags --abbrev=0 || echo "no tags"
+        run: git describe --tags --abbrev=0
   check-build:
     runs-on: ubuntu-latest
     needs: test
@@ -55,6 +58,7 @@ jobs:
     needs: 
       - build-images
       - skipped-build-images
+
     if: "always() && (needs.build-images.result == 'skipped' || needs.build-images.result == 'success')"
     runs-on: ubuntu-latest
     steps:
