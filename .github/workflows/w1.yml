@@ -40,8 +40,7 @@ jobs:
   deploy:
     needs:
       - check_build
-      - build
-    if: "needs.check_build.outputs.status == 'skip-build' || !contains(needs.build.outputs.status, 'failure')"
+        #if: "needs.check_build.outputs.status == 'skip-build' || !contains(needs.build.outputs.status, 'failure')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
