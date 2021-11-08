@@ -1,4 +1,4 @@
-name: CI
+name: CD
 
 on:
   push:
@@ -6,41 +6,26 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install buildx
-        uses: docker/setup-buildx-action@v1
-        id: buildx
-        with:
-          install: true
-      - name: 'Cache docker layers'
-        uses: actions/cache@v2
-        with:
-          path: /tmp/buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      - name: 'build'
-        run: |
-          docker build -f Dockerfile \
-            --builder=${{ steps.buildx.outputs.name }} \
-            --cache-from=type=local,src=/tmp/buildx-cache \
-            --cache-to=type=local,mode=max,dest=/tmp/buildx-cache-new \
-            -t t1:latest \
-            --load \
-            .
-      - name: 'build_test'
-        run: |
-          docker build -f Dockerfile_test \
-            --builder=${{ steps.buildx.outputs.name }} \
-            --cache-from=type=local,src=/tmp/buildx-cache \
-            --cache-to=type=local,mode=max,dest=/tmp/buildx-cache-new \
-            -t t2:latest \
-            --load \
-            .
-      - name: 'clean cache'
-        run: |
-          rm -rf /tmp/buildx-cache
-          mv -v /tmp/buildx-cache-new /tmp/buildx-cache
+      - name: Get tag
+        run: git describe --tags --abbrev=0
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check tag
+        if: startsWith(github.event.ref, 'refs/tags/v')
+        run: exit 1
+      - name: Build
+        run: echo build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get tag
+        run: get describe --tags --abbrev=0
