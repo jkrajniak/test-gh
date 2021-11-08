@@ -25,7 +25,7 @@ jobs:
           echo "${{ github.event.ref }}"
           TAG=$(echo ${{ github.event.ref }} | cut -f3- -d'/')
           echo $TAG
-          [[ $TAG =~ ^v([0-9]\d*)\.([0-9]\d*) ]] && echo "::set-output status=build"  || "::set-output status=skip-build"
+          [[ $TAG =~ ^v([0-9]\d*)\.([0-9]\d*) ]] && echo "::set-output name=status::build"  || "::set-output name=status::skip-build"
   build:
     needs: check_build
     if: "needs.check_build.outputs.status == 'build'"
