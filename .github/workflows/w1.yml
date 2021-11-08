@@ -7,10 +7,6 @@ on:
     tags:
       - v1.*
 
-concurrency:
-  group: deployment
-  cancel-in-progress: true
-
 
 jobs:
   test:
