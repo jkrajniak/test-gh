@@ -13,6 +13,7 @@ jobs:
       - name: Get tag
         run: git describe --tags --abbrev=0 || echo "no tags"
   check-build:
+    runs-on: ubuntu-latest
     needs: test
     outputs:
       status: ${{ steps.check_tag.conclusion }}
