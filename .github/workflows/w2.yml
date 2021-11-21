@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Skip image'
-        run: exit 0
+        run: echo ${{needs.build-images.result}} && exit 0
 
   deploy:
     needs: 
