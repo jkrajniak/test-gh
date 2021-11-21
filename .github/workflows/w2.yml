@@ -12,9 +12,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 2
-      - run: git checkout HEAD^
-      - name: Get tag
-        run: git describe --tags --abbrev=0
+      - run: echo "test"
+
   build-images:
     needs: test
     runs-on: ubuntu-latest
