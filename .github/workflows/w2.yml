@@ -38,5 +38,6 @@ jobs:
 
   post-deploy:
     needs: deploy
+    runs-on: ubuntu-latest
     steps:
       - run: echo "post-deploy"
