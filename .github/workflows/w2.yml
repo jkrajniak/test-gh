@@ -22,7 +22,7 @@ jobs:
 
   skipped-build-images:
     needs: build-images
-    if: always() && (needs.build-images == 'failure')
+    if: always() #&& (needs.build-images == 'failure')
     runs-on: ubuntu-latest
     steps:
       - name: 'Skip image'
