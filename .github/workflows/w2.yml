@@ -1,0 +1,47 @@
+name: C2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - run: git checkout HEAD^
+      - name: Get tag
+        run: git describe --tags --abbrev=0
+  build-images:
+    needs: test
+    if: "needs.check-build.outputs.status == 'build'"
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.build.conclusion }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        id: build
+        run: |
+          echo build
+          exit 1
+
+  skipped-build-images:
+    needs: check-build
+    if: always() && (needs.build-images == 'failure')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Skip image'
+        run: exit 0
+
+  deploy:
+    needs: 
+      - build-images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get tag
+        run: get describe --tags --abbrev=0 || echo "no tags"
