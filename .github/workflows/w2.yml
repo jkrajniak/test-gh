@@ -22,7 +22,7 @@ jobs:
 
   skipped-build-images:
     needs: build-images
-    if: always() #&& (needs.build-images == 'failure')
+    if: always() && (needs.build-images.result == 'failure')
     runs-on: ubuntu-latest
     steps:
       - name: 'Skip image'
@@ -31,7 +31,7 @@ jobs:
   deploy:
     needs: 
       - build-images
-      - skipped-build-images
+        #- skipped-build-images
     runs-on: ubuntu-latest
     steps:
       - run: echo "deploy"
