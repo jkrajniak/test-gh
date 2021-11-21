@@ -27,7 +27,7 @@ jobs:
           exit 1
 
   skipped-build-images:
-    needs: check-build
+    needs: build-images
     if: always() && (needs.build-images == 'failure')
     runs-on: ubuntu-latest
     steps:
