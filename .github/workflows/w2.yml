@@ -9,18 +9,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
       - run: echo "test"
 
   build-images:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Build
-        id: build
         run: |
           echo build
           exit 1
@@ -36,8 +31,12 @@ jobs:
   deploy:
     needs: 
       - build-images
+      - skipped-build-images
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Get tag
-        run: get describe --tags --abbrev=0 || echo "no tags"
+      - run: echo "deploy"
+
+  post-deploy:
+    needs: deploy
+    steps:
+      - run: echo "post-deploy"
