@@ -20,6 +20,7 @@ jobs:
 
   build-images:
     needs: test
+    if: ${{ github.event.inputs.stage  == github.job }}
     runs-on: ubuntu-latest
     steps:
       - name: Build
@@ -36,6 +37,7 @@ jobs:
         run: echo ${{needs.build-images.result}} && exit 0
 
   deploy:
+    if: ${{ github.event.inputs.stage  == github.job }}
     needs: 
       - build-images
         #- skipped-build-images
@@ -44,6 +46,7 @@ jobs:
       - run: echo "deploy"
 
   post-deploy:
+    if: ${{ github.event.inputs.stage  == github.job }}
     needs: deploy
     runs-on: ubuntu-latest
     steps:
