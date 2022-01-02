@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      stage:
+        required: false
+        default: "test"
+        description: "Initial job"
 
 jobs:
   test:
@@ -18,7 +24,7 @@ jobs:
       - name: Build
         run: |
           echo build
-          exit 1
+          exit 0
 
   skipped-build-images:
     needs: build-images
