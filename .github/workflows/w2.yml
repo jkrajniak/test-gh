@@ -5,7 +5,7 @@ on:
 #    branches:
 #      - master
     tags:
-      - v.*
+      - v1.*
   workflow_dispatch:
     inputs:
       stage:
