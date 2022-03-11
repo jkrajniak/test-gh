@@ -2,8 +2,10 @@ name: C2
 
 on:
   push:
-    branches:
-      - master
+#    branches:
+#      - master
+    tags:
+      - v.*-prod
   workflow_dispatch:
     inputs:
       stage:
