@@ -2,8 +2,8 @@ name: C2
 
 on:
   push:
-#    branches:
-#      - master
+    branches:
+      - master
     tags:
       - v1.*prod
   workflow_dispatch:
@@ -46,6 +46,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "deploy"
+
+  deploy-prod:
+    needs: deploy
+    if: startsWith(github.event.ref, 'refs/tags/v') && contains(github.event.ref, 'prod')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Deploy to prod'
+        run: echo ${{github.event.ref}}
 
   post-deploy:
     if: ${{ github.event.inputs.stage  == github.job }}
