@@ -13,16 +13,18 @@ on:
         default: "test"
         description: "Initial job"
 
+concurrency:
+  group: deployment
+  cancel-in-progress: true
+
 jobs:
   test:
-    if: "!(startsWith(github.event.ref, 'refs/tags/v') && contains(github.event.ref, 'prod'))"
     runs-on: ubuntu-latest
     steps:
       - run: echo "test"
 
   build-images:
     needs: test
-    if: ${{ github.event.inputs.stage  == github.job }}
     runs-on: ubuntu-latest
     steps:
       - name: Build
