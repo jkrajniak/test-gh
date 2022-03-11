@@ -55,6 +55,14 @@ jobs:
       - name: 'Deploy to prod'
         run: echo ${{github.event.ref}}
 
+  post-deploy-prod:
+    needs: deploy-prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Clean up'
+        run: echo 'sss'
+
+
   post-deploy:
     if: ${{ github.event.inputs.stage  == github.job }}
     needs: deploy
