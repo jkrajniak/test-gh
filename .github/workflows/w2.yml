@@ -54,7 +54,7 @@ jobs:
           TAG=$(git describe --tags || echo '')
           docker build \
             -t w2:latest \
-            ${TAG:+ -t w2:${TAG}} \
+            ${TAG:+ -t w2:$TAG} \
             .
           echo "deploy"
 
