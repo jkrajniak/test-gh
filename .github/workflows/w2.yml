@@ -47,6 +47,7 @@ jobs:
         #- skipped-build-images
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: abc
         run: |
           echo ${{github.event.ref}}
@@ -62,6 +63,7 @@ jobs:
     if: startsWith(github.event.ref, 'refs/tags/v') && contains(github.event.ref, 'prod')
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: 'Deploy to prod'
         run: |
           echo ${{github.event.ref}}
