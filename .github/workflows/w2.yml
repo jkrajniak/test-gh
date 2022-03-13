@@ -47,7 +47,15 @@ jobs:
         #- skipped-build-images
     runs-on: ubuntu-latest
     steps:
-      - run: echo "deploy"
+      - name: abc
+        run: |
+          echo ${{github.event.ref}}
+          TAG=$(git describe --always || echo '')
+          docker build \
+            -t w2:latest \
+            ${TAG:+ -t w2:${TAG}} \
+            .
+          echo "deploy"
 
   deploy-prod:
     needs: deploy
@@ -55,7 +63,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Deploy to prod'
-        run: echo ${{github.event.ref}}
+        run: |
+          echo ${{github.event.ref}}
+          TAG=$(git describe --always || echo '')
+          
 
   post-deploy-prod:
     needs: deploy-prod
