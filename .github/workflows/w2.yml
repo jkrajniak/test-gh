@@ -57,6 +57,10 @@ jobs:
             ${TAG:+ -t w2:$TAG} \
             .
           echo "deploy"
+      - name: run-tag
+        if: startsWith(github.event.ref, 'refs/tags/v') && contains(github.event.ref, 'prod')
+        run: |
+          echo "Run on prod"
 
   deploy-prod:
     needs: deploy
@@ -68,7 +72,6 @@ jobs:
         run: |
           echo ${{github.event.ref}}
           TAG=$(git describe --always || echo '')
-          
 
   post-deploy-prod:
     needs: deploy-prod
@@ -76,7 +79,6 @@ jobs:
     steps:
       - name: 'Clean up'
         run: echo 'sss'
-
 
   post-deploy:
     if: ${{ github.event.inputs.stage  == github.job }}
