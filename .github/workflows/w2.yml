@@ -51,7 +51,7 @@ jobs:
       - name: abc
         run: |
           echo ${{github.event.ref}}
-          TAG=$(git describe --always || echo '')
+          TAG=$(git describe --tags || echo '')
           docker build \
             -t w2:latest \
             ${TAG:+ -t w2:${TAG}} \
