@@ -60,10 +60,10 @@ jobs:
         run: |
           echo "::set-output name=result::failed"
       - name: 'Step 3'
-        if: ${{ steps.step2.outputs.result != "failed" }}
+        if: ${{ steps.step2.outputs.result != 'failed' }}
         run: echo 'Echo step 3'
       - name: 'Step 4'
-        if: ${{ steps.step2.outputs.result != "failed" }}
+        if: ${{ steps.step2.outputs.result != 'failed' }}
         run: echo 'Step 4
 
   test-2:
