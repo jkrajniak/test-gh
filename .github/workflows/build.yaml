@@ -26,4 +26,12 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: 'Get Next Version'
-        run: echo ${{ steps.previoustag.outputs.tag }}
+        id: next_version
+        run: |
+          current_version=$(echo ${{ steps.previoustag.outputs.tag }} | tr -d 'v')
+          echo $current_version
+          next_version=$(echo $current_version | awk -F. -v OFS=. '{$NF++;print}')
+          echo "next_version=$next_version" >> $GITHUB_OUTPUT
+          echo $next_version
+      - name: Show next version
+        run: echo ${{ steps.next_version.outputs.next_version }}
