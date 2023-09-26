@@ -26,10 +26,4 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: 'Get Next Version'
-        id: get-next-version
-        uses: "WyriHaximus/github-action-next-semvers@v1"
-        with:
-          version: ${{ steps.previoustag.outputs.tag }}
-          strict: false
-      - name: Show next version
-        run: echo ${{ steps.get-next-version.outputs.major }}
+        run: echo ${{ steps.previoustag.outputs.tag }}
