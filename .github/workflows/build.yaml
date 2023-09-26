@@ -35,3 +35,9 @@ jobs:
           echo $next_version
       - name: Show next version
         run: echo ${{ steps.next_version.outputs.next_version }}
+      - name: Update tag with the next version
+        run: |
+          git config --global user.email "
+          git config --global user.name "github-actions"
+          git tag -a v${{ steps.next_version.outputs.next_version }} -m "v${{ steps.next_version.outputs.next_version }}"
+          git push origin v${{ steps.next_version.outputs.next_version }}
